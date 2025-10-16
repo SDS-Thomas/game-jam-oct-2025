@@ -3,32 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-
+/**
+  * This ensures that this core component isn't accidentally detached
+  * Rigidbody2D: Used for Physics, specifically gravity and momemntum transfer on collision
+  * BoxCollider2D: Used for collisions
+  */
 [RequireComponent (typeof(Rigidbody2D))]
-// https://www.youtube.com/watch?v=T8fG0D2_V5M&list=PL7S-IAgf3dlUPT3iheJaUWu-Johr8bgCk&index=2
+[RequireComponent (typeof(BoxCollider2D))]
+
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed = 5.0f;
-    public Rigidbody2D rb;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
     }
 
     // Update is called once per frame
     void Update ()
     {
+        /**
+          * Checks the state on the InputManager singleton and acts accordingly
+          */
         if(InputManager.instance.isLeft) {
             transform.position -=  new Vector3(movementSpeed * Time.deltaTime, 0, 0);
-        }
-        if(InputManager.instance.isRight) {
+        } else if(InputManager.instance.isRight) {
             transform.position +=  new Vector3(movementSpeed * Time.deltaTime, 0, 0);
         }
         if(InputManager.instance.isJump) {
             Debug.Log("Jump!");
         }
     }
-
 }
