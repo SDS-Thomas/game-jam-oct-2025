@@ -45,6 +45,7 @@ namespace Platformer.Mechanics
         private InputAction m_JumpAction;
 
         public Bounds Bounds => collider2d.bounds;
+        public bool isFlipped = false;
 
         void Awake()
         {
@@ -129,9 +130,10 @@ namespace Platformer.Mechanics
             }
 
             if (move.x > 0.01f)
-                spriteRenderer.flipX = false;
+                isFlipped = false;
             else if (move.x < -0.01f)
-                spriteRenderer.flipX = true;
+                isFlipped = true;
+            spriteRenderer.flipX = isFlipped;
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
