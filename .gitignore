@@ -6,3 +6,6 @@
 /[Bb]uilds/
 /[Ll]ogs/
 .DS_Store
+
+*.csproj
+*.sln
