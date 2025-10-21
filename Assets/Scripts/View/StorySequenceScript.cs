@@ -15,6 +15,7 @@ public class StorySequenceScript : MonoBehaviour
 
     private float autoContinueTimer = 0;
     private InputAction nextAction;
+    private bool isClicked = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,22 +29,26 @@ public class StorySequenceScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (slides.Count == 0)
+        bool clicking = nextAction.ReadValue<float>() > 0.1f;
+        if ((clicking && !isClicked) || autoContinueTimer > autoContinueDelay)
         {
-            SceneManager.LoadScene(nextSceneIndex);
-            return;
+            ToNextSlide();
+            isClicked = true;
         }
-
-        if (nextAction.ReadValue<float>() > 0.1f)
-            ToNextSlide();
-        if (autoContinueTimer > autoContinueDelay)
-            ToNextSlide();
+        if (!clicking)
+            isClicked = false;
 
         autoContinueTimer += Time.deltaTime;
     }
     
     void ToNextSlide()
     {
+        if (slides.Count == 0)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+            return;
+        }
+        
         Sprite slide = slides[0];
         slides.RemoveAt(0);
         image.sprite = slide;
