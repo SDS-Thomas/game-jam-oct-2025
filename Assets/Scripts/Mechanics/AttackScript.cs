@@ -58,6 +58,7 @@ public class AttackScript : MonoBehaviour
             attackObject.transform.position -= attackPrefab.transform.localPosition;
         else
             attackObject.transform.position += attackPrefab.transform.localPosition;
+        attackObject.GetComponent<SpriteRenderer>().flipX = playerController.isFlipped;
 
         attackDelayTimer = attackDelay;
         attackDurationTimer = attackDuration;
