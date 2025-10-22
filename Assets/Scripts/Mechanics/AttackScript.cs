@@ -42,7 +42,12 @@ public class AttackScript : MonoBehaviour
         // Attack in progress
         if (attackDurationTimer > 0)
         {
-
+            attackObject.transform.position = transform.position;
+            if (playerController.isFlipped)
+                attackObject.transform.position -= attackPrefab.transform.localPosition;
+            else
+                attackObject.transform.position += attackPrefab.transform.localPosition;
+            attackObject.GetComponent<SpriteRenderer>().flipX = playerController.isFlipped;
         }
 
         // Attack end
@@ -53,12 +58,6 @@ public class AttackScript : MonoBehaviour
     void Attack()
     {
         attackObject.SetActive(true);
-        attackObject.transform.position = transform.position;
-        if (playerController.isFlipped)
-            attackObject.transform.position -= attackPrefab.transform.localPosition;
-        else
-            attackObject.transform.position += attackPrefab.transform.localPosition;
-        attackObject.GetComponent<SpriteRenderer>().flipX = playerController.isFlipped;
 
         attackDelayTimer = attackDelay;
         attackDurationTimer = attackDuration;
